@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 /**
  * Generated class for the FilterComponent component.
@@ -7,13 +7,13 @@ import { Component } from '@angular/core';
  * Components.
  */
 @Component({
-  selector: 'filter',
-  templateUrl: 'filter.html'
+    selector: 'filter',
+    templateUrl: 'filter.html'
 })
 export class FilterComponent {
 
+    ape: string;
 
-  constructor() {
-  }
-
+    constructor() {
+    }
 }

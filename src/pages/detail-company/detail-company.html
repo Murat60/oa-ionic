@@ -7,12 +7,75 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>detail-company</ion-title>
+    <ion-title>{{item.fields.l1_declaree}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-{{item.fields.apet700}}
+
+
+<ion-content>
+
+  <div class="row header">
+    <div class="col">Entreprise</div>
+    <div class="col">{{item.fields.l1_declaree}}</div>
+  </div>
+
+
+    <div class="row">
+        <div class="col">SIRET :</div>
+        <div class="col">{{item.fields.siret}}</div>
+    </div>
+    <div class="row">
+        <div class="col">APET 700</div>
+        <div class="col">{{item.fields.apet700}}</div>
+    </div>
+    <div class="row">
+        <div class="col">Catégorie</div>
+        <div class="col">{{item.fields.categorie}}</div>
+    </div>
+    <div class="row">
+        <div class="col">Département</div>
+    </div>
+    <div class="row">
+        <div class="col">{{item.fields.libcom}}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{item.fields.codpos}}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{item.fields.libnj}}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{item.fields.dcren}}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{item.fields.libtefet}}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{item.fields.libtca}}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{item.fields.libreg_new}}</div>
+        </div>
+    <div class="row">
+        <div class="col">{{item.fields.coordonnees}}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{item.fields.l4_normalisee}}</div>
+    </div>
+
+    <ion-row>
+        <ion-col>
+            <strong>Product</strong>
+        </ion-col>
+        <ion-col>
+            <strong>Payment Date</strong>
+        </ion-col>
+        <ion-col>
+            <strong>Status</strong>
+        </ion-col>
+    </ion-row>
+
 </ion-content>

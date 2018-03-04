@@ -16,7 +16,7 @@ export class HomePage {
     this.firmApiProvider.searchCompanies('', 30).subscribe(data => {
       this.nhits = data.nhits;
       for (let i=0; i < data.records.length; i++) {
-        console.log(data.records[i]);
+        //console.log(data.records[i]);
         this.items.push(data.records[i]);
       }
     });
@@ -31,7 +31,7 @@ export class HomePage {
     setTimeout(() => {
       this.firmApiProvider.searchCompanies('', 30, this.items.length).subscribe(data => {
         for (let i = 0; i < data.records.length; i++) {
-          console.log(data.records[i]);
+          //console.log(data.records[i]);
           this.items.push(data.records[i]);
           infiniteScroll.complete();
         }
