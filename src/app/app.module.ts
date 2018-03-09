@@ -3,53 +3,51 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {SuperTabsModule} from 'ionic2-super-tabs';
-import {FilterComponent} from '../components/filter/filter';
-import {DetailCompanyPage} from '../pages/detail-company/detail-company';
-import { FirmApiProvider } from '../providers/firm-api/firm-api';
-import {HttpClientModule} from '@angular/common/http';
-import {registerLocaleData} from '@angular/common';
-import localeFr from '@angular/common/locales/fr';
+import { CompanyRepositoryProvider } from '../providers/company-repository/company-repository';
+import {HttpModule} from "@angular/http";
+import {MapPage} from "../pages/map/map";
+import {GeneralSearchBarComponent} from "../components/search-bar/search-bar";
+import {SafePipe} from "../pipe/safe.pipe";
+import {CompanyMoreInformationsPage} from "../pages/company-more-informations/company-more-informations";
+import {FiltersComponent} from "../components/filters/filters";
 
-registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
+    MapPage,
     ContactPage,
     HomePage,
     TabsPage,
-    FilterComponent,
-    DetailCompanyPage,
+    GeneralSearchBarComponent,
+    SafePipe,
+    CompanyMoreInformationsPage,
+    FiltersComponent,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    SuperTabsModule.forRoot(),
-    HttpClientModule
+    HttpModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
+    MapPage,
     ContactPage,
     HomePage,
-    DetailCompanyPage,
-    TabsPage
+    TabsPage,
+    CompanyMoreInformationsPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    FirmApiProvider,
-    HttpClientModule
+    CompanyRepositoryProvider,
   ]
 })
 export class AppModule {}

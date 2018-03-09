@@ -1,20 +1,30 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button [menuToggle]="activeMenu">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Entreprises
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list inset>
-    <ion-list-header>
-      Liste des{{ nhits ? ' ' +(nhits |number:'':'fr') + ' ' : ' '}}entreprises
-    </ion-list-header>
-    <ion-item ion-item *ngFor="let item of items" (click)="goToDetailCompany(item)">
-      <ion-label>
-        {{ item.fields.siret }} | {{item.fields.l1_declaree}}
-      </ion-label>
-    </ion-item>
-  </ion-list>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+
+  <search-bar></search-bar>
+
+  <ion-item class="item-ios-custom">
+    Résultats
+    <ion-badge item-end>{{ totalResults }}</ion-badge>
+  </ion-item>
+
+  <div *ngFor="let company of companies">
+        <button class="company-list-item" ion-item (click)="moreCompanyInformationModal(company)">
+          <ion-label>{{ company.name }}</ion-label>
+        </button>
+  </div>
+
 </ion-content>
+
+
+

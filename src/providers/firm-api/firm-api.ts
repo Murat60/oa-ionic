@@ -4,12 +4,6 @@ import 'rxjs/add/operator/map';
 import {FirmApiCompaniesInterface} from './firm-api-interface';
 import {Observable} from 'rxjs/Observable';
 
-/*
-  Generated class for the FirmApiProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class FirmApiProvider {
 

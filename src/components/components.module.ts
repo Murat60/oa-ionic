@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
-import { FilterComponent } from './filter/filter';
+import { GeneralSearchBarComponent } from './search-bar/search-bar';
+import { FiltersComponent } from './filters/filters';
 @NgModule({
-	declarations: [FilterComponent],
+	declarations: [GeneralSearchBarComponent,
+    FiltersComponent,
+    ],
 	imports: [],
-	exports: [FilterComponent]
+	exports: [GeneralSearchBarComponent,
+    FiltersComponent,
+    ]
 })
 export class ComponentsModule {}

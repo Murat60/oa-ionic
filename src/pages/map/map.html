@@ -1,0 +1,15 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button [menuToggle]="activeMenu">
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            Carte
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding="10px">
+    <search-bar></search-bar>
+    <iframe class="map-style" [src]="mapUrl|safe" frameborder="0"></iframe>
+</ion-content>

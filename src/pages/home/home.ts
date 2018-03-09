@@ -1,41 +1,90 @@
-import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {DetailCompanyPage} from '../detail-company/detail-company';
-import {FirmApiProvider} from '../../providers/firm-api/firm-api';
-import {CompanyInterface} from '../../providers/firm-api/firm-api-interface';
+import {Component, OnInit} from '@angular/core';
+import {Events, LoadingController, ModalController, NavController} from 'ionic-angular';
+import {CompanyRepositoryProvider} from "../../providers/company-repository/company-repository";
+import {Filter} from "../../models/filter";
+import {CompanyMoreInformationsPage} from "../company-more-informations/company-more-informations";
+import {Company} from "../../models/company";
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html',
+    selector: 'page-home',
+    templateUrl: 'home.html'
 })
-export class HomePage {
-  items: CompanyInterface[] = [];
-  nhits: number;
+export class HomePage implements OnInit {
 
-  constructor(public navCtrl: NavController, public firmApiProvider: FirmApiProvider) {
-    this.firmApiProvider.searchCompanies('', 30).subscribe(data => {
-      this.nhits = data.nhits;
-      for (let i=0; i < data.records.length; i++) {
-        //console.log(data.records[i]);
-        this.items.push(data.records[i]);
-      }
-    });
-  }
+    public companies;
+    public totalResults;
 
-  public goToDetailCompany(item) {
-    this.navCtrl.push(DetailCompanyPage, {item: item});
-  }
+    constructor(public navCtrl: NavController,
+                private companyRepository: CompanyRepositoryProvider,
+                private events: Events,
+                public modalCtrl: ModalController,
+                public loadingCtrl: LoadingController) {
 
-  doInfinite(infiniteScroll) {
+        this.events.subscribe('generalSearchBar', (data) => {
+            this.generalSearch(data);
+        });
 
-    setTimeout(() => {
-      this.firmApiProvider.searchCompanies('', 30, this.items.length).subscribe(data => {
-        for (let i = 0; i < data.records.length; i++) {
-          //console.log(data.records[i]);
-          this.items.push(data.records[i]);
-          infiniteScroll.complete();
+        /*this.events.subscribe('filters', (data) => {
+            this.searchWithFilters(data);
+        }); */
+
+        this.events.subscribe('totalResults', (data) => {
+            this.totalResults = data;
+        });
+
+        this.events.subscribe('endLoading', (data) => {
+           this.loading(data);
+        });
+
+        this.events.subscribe('filtersUpdate', (data) => {
+            this.companyRepository.loadDatas();
+            this.events.subscribe('companies', (dataco) => {
+                this.companies = dataco;
+            });
+
+        });
+    }
+
+    ngOnInit() {
+        this.companyRepository.loadDatas();
+        this.getCompanies();
+    }
+
+    getCompanies() {
+        this.events.subscribe('companies', (data) => {
+            this.companies = data;
+        });
+    }
+
+    generalSearch(data: string) {
+        const filter = new Filter();
+        filter.generalSearch = data;
+        this.companyRepository.setParams(filter);
+        this.companyRepository.loadDatas();
+        this.getCompanies();
+    }
+
+    /*searchWithFilters(filter: Filter)
+    {
+        this.companyRepository.setParams(filter);
+        this.companyRepository.loadDatas();
+        this.getCompanies();
+    } */
+
+    moreCompanyInformationModal(company: Company) {
+        let moreInformationModal = this.modalCtrl.create(
+            CompanyMoreInformationsPage, { 'company': company }
+        );
+        moreInformationModal.present();
+    }
+
+    private loading(status: boolean) {
+        let loading = this.loadingCtrl.create();
+            loading.present();
+
+        if(status) {
+            loading.dismiss();
         }
-      });
-    }, 500);
-  }
+    }
+
 }

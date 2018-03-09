@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Fermer</button>
+    </ion-buttons>
+    <ion-title>{{ company.name }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-content>
+      {{ company.name}}
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content class="custom-card-content-ios">
+        <ion-item-group>
+            <ion-item>
+              <ion-label>Siret</ion-label>
+              <ion-note item-end>{{ company.siret }}</ion-note>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Siren</ion-label>
+              <ion-note item-end>{{ company.siren }}</ion-note>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Code APE</ion-label>
+              <ion-note item-end>{{ company.ape }}</ion-note>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Type</ion-label>
+              <ion-note item-end>{{ company.categorie }}</ion-note>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Date de création</ion-label>
+              <ion-note item-end>{{ company.creationYear}}</ion-note>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Chiffre d'affaires</ion-label>
+              <ion-note item-end>{{ company.turnoverCode}}</ion-note>
+            </ion-item>
+        </ion-item-group>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-icon name="home"></ion-icon>
+      {{ company.getFullAddress()}}
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
