@@ -1,15 +1,14 @@
 <div class="ape">
   <ion-item padding-bottom>
     <ion-label color="primary" floating>Activité (code APE)</ion-label>
-    <ion-input
-            [(ngModel)]="ape"
-            (keyup.enter)="searchFilter()"
-    ></ion-input>
+    <ion-input [(ngModel)]="ape" (keyup.enter)="searchFilter()"></ion-input>
   </ion-item>
+
   <div padding-left *ngFor="let oneobjet of selecteApe">
     <ion-icon (click)="searchFilter((oneobjet), selecteApe)" name="close"></ion-icon> <ion-badge>{{ oneobjet }}</ion-badge>
   </div>
-</div>
+  </div>
+
 <div class="category">
   <ion-item>
     <ion-label color="primary">Catégorie d'entreprise</ion-label>
@@ -23,6 +22,7 @@
      <ion-badge>{{ oneobjet }}</ion-badge>
   </div>
 </div>
+
 <div class="departement">
   <ion-item>
     <ion-label color="primary">Département</ion-label>
@@ -36,6 +36,7 @@
     <ion-badge>{{ oneobjet }}</ion-badge>
   </div>
 </div>
+
 <div class="city">
   <ion-item>
     <ion-label color="primary" floating>Commune</ion-label>
@@ -47,6 +48,7 @@
   <div padding-left *ngFor="let oneobjet of selectedCities">
     <ion-icon (click)="removeList((oneobjet), selectedCities)" name="close"></ion-icon> <ion-badge>{{ oneobjet }}</ion-badge>
   </div>
+
 </div>
 <div class="creationYear">
   <ion-item padding-bottom>
@@ -59,7 +61,9 @@
   <div padding-left *ngFor="let oneobjet of selectedCreationYears">
     <ion-icon (click)="removeList((oneobjet), selectedCities)" name="close"></ion-icon> <ion-badge>{{ oneobjet }}</ion-badge>
   </div>
+
 </div>
+
 <div class="legalform">
   <ion-item>
     <ion-label color="primary">Statut juridique</ion-label>
@@ -73,6 +77,7 @@
     <ion-badge>{{ oneobjet }}</ion-badge>
   </div>
 </div>
+
 <div class="effective">
   <ion-item>
     <ion-label color="primary">Effectifs</ion-label>
@@ -86,6 +91,7 @@
     <ion-badge>{{ oneobjet }}</ion-badge>
   </div>
 </div>
+
 <div class="turnover">
   <ion-item>
     <ion-label color="primary">Chiffre d'affaires</ion-label>
