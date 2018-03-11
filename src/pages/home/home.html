@@ -10,21 +10,24 @@
 </ion-header>
 
 <ion-content padding>
-
   <search-bar></search-bar>
-
   <ion-item class="item-ios-custom">
     Résultats
     <ion-badge item-end>{{ totalResults }}</ion-badge>
   </ion-item>
 
   <div *ngFor="let company of companies">
-        <button class="company-list-item" ion-item (click)="moreCompanyInformationModal(company)">
-          <ion-label>{{ company.name }}</ion-label>
-        </button>
+    <button class="company-list-item" ion-item (click)="moreCompanyInformationModal(company)">
+      <ion-label>{{ company.name }}</ion-label>
+    </button>
   </div>
 
-</ion-content>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" text-center  loadingText="Chargement...">
+    <ion-infinite-scroll-content>
+    </ion-infinite-scroll-content>
+    {{ loadingText }}
+  </ion-infinite-scroll>
 
+</ion-content>
 
 

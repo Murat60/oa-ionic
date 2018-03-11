@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Events, LoadingController, ModalController, NavController} from 'ionic-angular';
+import {Events, InfiniteScroll, ModalController, NavController} from 'ionic-angular';
 import {CompanyRepositoryProvider} from "../../providers/company-repository/company-repository";
 import {Filter} from "../../models/filter";
 import {CompanyMoreInformationsPage} from "../company-more-informations/company-more-informations";
@@ -11,29 +11,24 @@ import {Company} from "../../models/company";
 })
 export class HomePage implements OnInit {
 
-    public companies;
+    public companies = [];
     public totalResults;
+    public scrolledPage = 0;
+    public loadingText = "";
+    private loaded: boolean = false;
+
 
     constructor(public navCtrl: NavController,
                 private companyRepository: CompanyRepositoryProvider,
                 private events: Events,
-                public modalCtrl: ModalController,
-                public loadingCtrl: LoadingController) {
+                public modalCtrl: ModalController) {
 
         this.events.subscribe('generalSearchBar', (data) => {
             this.generalSearch(data);
         });
 
-        /*this.events.subscribe('filters', (data) => {
-            this.searchWithFilters(data);
-        }); */
-
         this.events.subscribe('totalResults', (data) => {
             this.totalResults = data;
-        });
-
-        this.events.subscribe('endLoading', (data) => {
-           this.loading(data);
         });
 
         this.events.subscribe('filtersUpdate', (data) => {
@@ -53,6 +48,8 @@ export class HomePage implements OnInit {
     getCompanies() {
         this.events.subscribe('companies', (data) => {
             this.companies = data;
+            this.loadingText = "";
+            this.loaded = true;
         });
     }
 
@@ -64,13 +61,6 @@ export class HomePage implements OnInit {
         this.getCompanies();
     }
 
-    /*searchWithFilters(filter: Filter)
-    {
-        this.companyRepository.setParams(filter);
-        this.companyRepository.loadDatas();
-        this.getCompanies();
-    } */
-
     moreCompanyInformationModal(company: Company) {
         let moreInformationModal = this.modalCtrl.create(
             CompanyMoreInformationsPage, { 'company': company }
@@ -78,13 +68,16 @@ export class HomePage implements OnInit {
         moreInformationModal.present();
     }
 
-    private loading(status: boolean) {
-        let loading = this.loadingCtrl.create();
-            loading.present();
-
-        if(status) {
-            loading.dismiss();
+    doInfinite(infiniteScroll: InfiniteScroll) {
+        if(infiniteScroll._position === "bottom" && this.loaded == true) {
+            this.scrolledPage += 1;
+            this.loadingText = "Chargement en cours...";
+            this.events.publish('scrolledPage', this.scrolledPage);
+            this.companyRepository.loadDatas();
+            this.getCompanies();
+            infiniteScroll.complete();
         }
+
     }
 
 }

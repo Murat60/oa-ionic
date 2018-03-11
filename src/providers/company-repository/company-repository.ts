@@ -11,15 +11,20 @@ import {Filter} from "../../models/filter";
 @Injectable()
 export class CompanyRepositoryProvider {
 
-    private apiUrl: string = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=sirene&lang=fr";
     private mapIframeUrl: string = "https://public.opendatasoft.com/explore/embed/dataset/sirene/map/?basemap=mapbox.streets";
+    private apiUrl: string = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=sirene&lang=fr";
     private apiParams: string;
     private companies: Company[] = [];
+    private scrollNumber;
 
     constructor(private http: Http, private events: Events) {
         this.events.subscribe('filters', (data) => {
             this.searchWithFilters(data);
         });
+        this.events.subscribe('scrolledPage', (data) => {
+            this.scrollNumber = data;
+        });
+
     }
 
     loadDatas()
@@ -84,6 +89,7 @@ export class CompanyRepositoryProvider {
     private getApiUrl()
     {
         let url = this.apiUrl;
+        url += "&rows=" + this.dataRowsCalculator(this.scrollNumber);
         if(this.apiParams) url += "&q=" + this.apiParams;
         return url;
 
@@ -125,5 +131,13 @@ export class CompanyRepositoryProvider {
         const paramStart = (this.apiParams.substr(this.apiParams.length - 1) === ")") ? "%20AND%20" : "";
         return paramStart;
     }
+
+    private dataRowsCalculator(scrollNum: any)
+    {
+        let rows = 0;
+        rows = (scrollNum > 0) ? 10 * scrollNum : 15;
+        return rows;
+    }
+
 
 }
