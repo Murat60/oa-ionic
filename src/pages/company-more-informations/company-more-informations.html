@@ -10,7 +10,12 @@
 <ion-content padding>
   <ion-card>
     <ion-card-content>
+        <ion-icon name="bookmark"></ion-icon>
       {{ company.name}}
+<br>
+        <ion-icon name="compass"></ion-icon>
+        {{ company.getFullAddress()}}
+
     </ion-card-content>
   </ion-card>
 
@@ -49,12 +54,4 @@
         </ion-item-group>
     </ion-card-content>
   </ion-card>
-
-  <ion-card>
-    <ion-card-content>
-      <ion-icon name="home"></ion-icon>
-      {{ company.getFullAddress()}}
-    </ion-card-content>
-  </ion-card>
-
 </ion-content>

@@ -84,8 +84,6 @@ export class CompanyRepositoryProvider {
         if(filter.region) this.apiParams += this.paramStart() + "(rpen:" + this.setMultipleParams(filter.region);
     }
 
-
-
     private getApiUrl()
     {
         let url = this.apiUrl;

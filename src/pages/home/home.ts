@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Events, InfiniteScroll, ModalController, NavController} from 'ionic-angular';
+import { Events, InfiniteScroll, ModalController, NavController, ToastController } from 'ionic-angular';
 import {CompanyRepositoryProvider} from "../../providers/company-repository/company-repository";
 import {Filter} from "../../models/filter";
 import {CompanyMoreInformationsPage} from "../company-more-informations/company-more-informations";
 import {Company} from "../../models/company";
+import { Network } from '@ionic-native/network';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'page-home',
@@ -16,12 +18,16 @@ export class HomePage implements OnInit {
     public scrolledPage = 0;
     public loadingText = "";
     private loaded: boolean = false;
+    connected: Subscription;
+    disconnected: Subscription;
 
 
     constructor(public navCtrl: NavController,
                 private companyRepository: CompanyRepositoryProvider,
                 private events: Events,
-                public modalCtrl: ModalController) {
+                public modalCtrl: ModalController,
+                private network: Network,
+                private toast: ToastController) {
 
         this.events.subscribe('generalSearchBar', (data) => {
             this.generalSearch(data);
@@ -41,9 +47,43 @@ export class HomePage implements OnInit {
     }
 
     ngOnInit() {
+
+        this.connected = this.network.onConnect().subscribe(data => {
+            console.log(data)
+            this.displayNetworkUpdate(data.type);
+        });
+
+        this.disconnected = this.network.onDisconnect().subscribe(data => {
+            console.log(data)
+            this.displayNetworkUpdate(data.type, true);
+        });
+
         this.companyRepository.loadDatas();
         this.getCompanies();
     }
+
+
+    ionViewWillLeave(){
+        this.connected.unsubscribe();
+        this.disconnected.unsubscribe();
+    }
+
+    displayNetworkUpdate(connectionState: string, offlineMode: boolean = false){
+
+        this.companyRepository.loadDatas();
+
+        if(offlineMode === true) {
+            this.toast.create({
+                message: `Aucune connexion n'est disponible`,
+            }).present();
+        } else {
+            this.toast.create({
+                message: `Connecté !`,
+                duration: 10000
+            }).present();
+        }
+    }
+
 
     getCompanies() {
         this.events.subscribe('companies', (data) => {
@@ -71,7 +111,7 @@ export class HomePage implements OnInit {
     doInfinite(infiniteScroll: InfiniteScroll) {
         if(infiniteScroll._position === "bottom" && this.loaded == true) {
             this.scrolledPage += 1;
-            this.loadingText = "Chargement en cours...";
+            this.loadingText = "Chargement...";
             this.events.publish('scrolledPage', this.scrolledPage);
             this.companyRepository.loadDatas();
             this.getCompanies();
