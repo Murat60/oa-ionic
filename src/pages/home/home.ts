@@ -21,7 +21,6 @@ export class HomePage implements OnInit {
     connected: Subscription;
     disconnected: Subscription;
 
-
     constructor(public navCtrl: NavController,
                 private companyRepository: CompanyRepositoryProvider,
                 private events: Events,
@@ -84,7 +83,6 @@ export class HomePage implements OnInit {
         }
     }
 
-
     getCompanies() {
         this.events.subscribe('companies', (data) => {
             this.companies = data;
@@ -112,10 +110,12 @@ export class HomePage implements OnInit {
         if(infiniteScroll._position === "bottom" && this.loaded == true) {
             this.scrolledPage += 1;
             this.loadingText = "Chargement...";
-            this.events.publish('scrolledPage', this.scrolledPage);
-            this.companyRepository.loadDatas();
-            this.getCompanies();
-            infiniteScroll.complete();
+            setImmediate(() => {
+                this.events.publish('scrolledPage', this.scrolledPage);
+                this.companyRepository.loadDatas();
+                this.getCompanies();
+                infiniteScroll.complete();
+            }, 6000);
         }
 
     }

@@ -49,13 +49,7 @@ export class CompanyRepositoryProvider {
     {
         return this.http.get(this.getApiUrl())
             .map(this.extractData)
-            .do(this.logResponse)
-            .catch(this.catchError);
-    }
-
-    private catchError(error: Response | any )
-    {
-        return Observable.throw(error.json() || "Server error");
+            .do(this.logResponse);
     }
 
     private logResponse(res: Response)
@@ -136,6 +130,4 @@ export class CompanyRepositoryProvider {
         rows = (scrollNum > 0) ? 10 * scrollNum : 15;
         return rows;
     }
-
-
 }

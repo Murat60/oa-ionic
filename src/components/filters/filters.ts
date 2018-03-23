@@ -56,6 +56,7 @@ export class FiltersComponent {
         if (this.city) filter.city = this.setMultipleValueForInput(this.city, this.selectedCities);
         this.city = "";
         if (this.creationYear) filter.creationYear = this.setMultipleValueForInput(this.creationYear, this.selectedCreationYears);
+        this.creationYear = "";
         if (this.category) filter.category = this.category;
         if (this.region) filter.region = this.region;
         if (this.effective) filter.effective = this.effective;
